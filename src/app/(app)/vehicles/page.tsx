@@ -136,7 +136,7 @@ export default function VehiclesPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-            <DataTable columns={vehicleColumns} data={vehicles} filterPlaceholder="Filter by plate number..." filterColumn="plateNumber" />
+            <DataTable columns={vehicleColumns} data={vehicles} filterPlaceholder="Filter by plate number, owner name..." />
         </CardContent>
       </Card>
     </div>
