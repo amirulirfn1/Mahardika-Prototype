@@ -1,6 +1,6 @@
+
 "use client";
 
-import * // Placeholder data - replace with actual data fetching
 import type { Policy } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download } from "lucide-react";
