@@ -13,7 +13,6 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  getGlobalFilterFn, // Default global filter
 } from "@tanstack/react-table";
 
 import {
@@ -46,7 +45,7 @@ export function DataTable<TData, TValue>({
   filterPlaceholder = "Filter items...",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]); // Kept for potential future use with column-specific filters
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]); 
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
@@ -58,12 +57,12 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters, // Kept for potential future use
+    onColumnFiltersChange: setColumnFilters, 
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: getGlobalFilterFn(), // Use the default global filter function
+    // Not specifying globalFilterFn uses the default global filter behavior
     state: {
       sorting,
       columnFilters,
@@ -186,4 +185,3 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
-
