@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import type { ColumnDef } from "@tanstack/react-table";
-import { PlusCircle, Users, ArrowUpDown, MoreHorizontal, Edit3, ShieldAlert } from "lucide-react";
+import { PlusCircle, Briefcase, ArrowUpDown, MoreHorizontal, Edit3, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
@@ -14,16 +14,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 
-
 const allUsers: User[] = [
   { uid: "CUST001", email: "ali@example.com", displayName: "Ali Baba", role: "customer", loyaltyTier: "Gold", points: 7500, photoURL: "https://picsum.photos/seed/cust1/40/40" },
   { uid: "CUST002", email: "siti@example.com", displayName: "Siti Nurhaliza", role: "customer", loyaltyTier: "Silver", points: 3200, photoURL: "https://picsum.photos/seed/cust2/40/40" },
   { uid: "CUST003", email: "muthu@example.com", displayName: "Muthu Samy", role: "customer", loyaltyTier: "Bronze", points: 1800, photoURL: "https://picsum.photos/seed/cust3/40/40" },
   { uid: "STAFF001", email: "staff@mahardika.co", displayName: "Ahmad Staff", role: "staff", loyaltyTier: "Bronze", points: 0, photoURL: "https://picsum.photos/seed/staff1/40/40" },
+  { uid: "STAFF002", email: "staff2@mahardika.co", displayName: "Zubaidah Staff", role: "staff", loyaltyTier: "Bronze", points: 0, photoURL: "https://picsum.photos/seed/staff2/40/40" },
   { uid: "ADMIN001", email: "superadmin@mahardika.co", displayName: "Super Admin", role: "admin", loyaltyTier: "Platinum", points: 99999, photoURL: "https://picsum.photos/seed/admin1/40/40" },
 ];
 
-const sampleCustomers = allUsers.filter(user => user.role === 'customer');
+const sampleStaff = allUsers.filter(user => user.role === 'staff');
 
 const getUserColumns = (
     onEdit: (userId: string) => void,
@@ -77,17 +77,12 @@ const getUserColumns = (
     header: "Role", 
     cell: ({row}) => {
       const role = row.original.role;
-      let badgeClass = "capitalize";
-      if (role === "admin") {
-        badgeClass += " bg-primary/80 text-primary-foreground";
-      } else if (role === "staff") {
-        badgeClass += " bg-secondary/80 text-secondary-foreground";
-      }
-      return <Badge variant={role === 'customer' ? 'outline' : 'default'} className={badgeClass}>{role}</Badge> 
+      return <Badge variant={'secondary'} className="capitalize bg-secondary/80 text-secondary-foreground">{role}</Badge> 
     }
   },
-  { accessorKey: "loyaltyTier", header: "Loyalty Tier", cell: ({row}) => <Badge className="capitalize">{row.original.loyaltyTier}</Badge>},
-  { accessorKey: "points", header: "Points", cell: ({row}) => row.original.points.toLocaleString() },
+  // Loyalty Tier and Points are less relevant for staff but can be kept for consistency or future use
+  // { accessorKey: "loyaltyTier", header: "Loyalty Tier" }, 
+  // { accessorKey: "points", header: "Points" },
   {
     id: "actions",
     cell: ({ row }) => {
@@ -106,7 +101,7 @@ const getUserColumns = (
               <Edit3 className="mr-2 h-4 w-4" /> Edit User
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onChangeRole(user.uid)}>
-              <ShieldAlert className="mr-2 h-4 w-4" /> Change Role/Tier
+              <ShieldAlert className="mr-2 h-4 w-4" /> Change Role
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -116,26 +111,26 @@ const getUserColumns = (
 ];
 
 
-export default function CustomersPage() {
+export default function StaffPage() {
   const { toast } = useToast();
 
-  const handleEditCustomer = (userId: string) => {
-    toast({ title: "Edit Customer", description: `Edit functionality for ${userId} not implemented.` });
+  const handleEditUser = (userId: string) => {
+    toast({ title: "Edit Staff User", description: `Edit functionality for ${userId} not implemented.` });
   };
 
   const handleChangeRole = (userId: string) => {
-    toast({ title: "Change Role/Tier", description: `Role/Tier change for ${userId} not implemented.` });
+    toast({ title: "Change Role", description: `Role change for staff ${userId} not implemented.` });
   }
   
-  const customerColumns = React.useMemo(() => getUserColumns(handleEditCustomer, handleChangeRole), []);
+  const staffColumns = React.useMemo(() => getUserColumns(handleEditUser, handleChangeRole), []);
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center"><Users className="mr-3 h-8 w-8 text-primary" />Customer Management</h1>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center"><Briefcase className="mr-3 h-8 w-8 text-primary" />Staff Management</h1>
           <p className="text-muted-foreground">
-            Manage all registered customers.
+            Manage all registered staff members.
           </p>
         </div>
         <Link href="/users/new" passHref>
@@ -147,13 +142,13 @@ export default function CustomersPage() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Customer List</CardTitle>
+          <CardTitle>Staff List</CardTitle>
           <CardDescription>
-            View and manage all registered customers in the system.
+            View and manage all staff members in the system.
           </CardDescription>
         </CardHeader>
         <CardContent>
-            <DataTable columns={customerColumns} data={sampleCustomers} filterPlaceholder="Filter by customer email or name..." filterColumn="email" />
+            <DataTable columns={staffColumns} data={sampleStaff} filterPlaceholder="Filter by staff email or name..." filterColumn="email"/>
         </CardContent>
       </Card>
     </div>

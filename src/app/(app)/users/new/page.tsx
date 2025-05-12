@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -43,8 +42,14 @@ export default function NewUserPage() {
       description: `An invitation has been sent to ${values.email} for the role of ${values.role}.`,
     });
     // In a real app, you'd make an API call here.
-    // For now, just navigate back to customers page.
-    router.push("/customers");
+    
+    let redirectPath = "/customers"; // Default to customers page
+    if (values.role === "staff") {
+      redirectPath = "/staff";
+    } else if (values.role === "admin") {
+      redirectPath = "/admins";
+    }
+    router.push(redirectPath);
   }
 
   return (
@@ -126,7 +131,7 @@ export default function NewUserPage() {
               />
 
               <div className="flex justify-end gap-2 pt-4">
-                <Button type="button" variant="outline" onClick={() => router.push("/customers")}>
+                <Button type="button" variant="outline" onClick={() => router.back()}>
                   Cancel
                 </Button>
                 <Button type="submit" disabled={form.formState.isSubmitting}>
