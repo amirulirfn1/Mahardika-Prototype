@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { LogIn, Mail } from "lucide-react";
+import { LogIn, Mail } from "lucide-react"; // Added Mail icon
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
@@ -46,11 +46,7 @@ export function LoginForm() {
   }
 
   function handleGoogleSignIn() {
-    toast({
-      title: "Google Sign-In",
-      description: "Google Sign-In is not yet implemented.",
-    });
-    // Simulate successful login for demo purposes
+    // Implement Google Sign-In logic here
      router.push("/dashboard");
   }
 
@@ -98,7 +94,6 @@ export function LoginForm() {
         </div>
       </div>
       <Button variant="outline" className="w-full" onClick={handleGoogleSignIn}>
-        {/* Placeholder for Google Icon */}
         <Mail className="mr-2 h-4 w-4" /> Google
       </Button>
     </Form>

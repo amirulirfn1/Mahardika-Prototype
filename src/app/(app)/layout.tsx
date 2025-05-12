@@ -13,6 +13,7 @@ import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
+// This layout wraps all authenticated routes.
 export default function AuthenticatedLayout({
   children,
 }: {
