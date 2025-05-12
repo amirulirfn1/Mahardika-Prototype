@@ -74,7 +74,11 @@ export default function PoliciesPage() {
         </div>
       </div>
 
-      <DataTable columns={policyColumns} data={policies} filterPlaceholder="Filter policies by ID..." filterColumn="id" />
+      <DataTable 
+        columns={policyColumns} 
+        data={policies} 
+        filterPlaceholder="Search by ID, customer, vehicle, dates..." 
+      />
 
       {policyToDelete && (
         <AlertDialog open={!!policyToDelete} onOpenChange={() => setPolicyToDelete(null)}>
@@ -98,3 +102,4 @@ export default function PoliciesPage() {
     </div>
   );
 }
+

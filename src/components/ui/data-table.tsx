@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -12,6 +13,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  getGlobalFilterFn, // Default global filter
 } from "@tanstack/react-table";
 
 import {
@@ -36,19 +38,18 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterPlaceholder?: string;
-  filterColumn?: string; // keyof TData as string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   filterPlaceholder = "Filter items...",
-  filterColumn,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]); // Kept for potential future use with column-specific filters
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [globalFilter, setGlobalFilter] = React.useState("");
 
   const table = useReactTable({
     data,
@@ -57,31 +58,32 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: setColumnFilters, // Kept for potential future use
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: getGlobalFilterFn(), // Use the default global filter function
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter,
     },
   });
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        {filterColumn && (
-             <Input
-                placeholder={filterPlaceholder}
-                value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
-                onChange={(event) =>
-                    table.getColumn(filterColumn)?.setFilterValue(event.target.value)
-                }
-                className="max-w-sm"
-            />
-        )}
+        <Input
+            placeholder={filterPlaceholder}
+            value={globalFilter ?? ""}
+            onChange={(event) =>
+                setGlobalFilter(event.target.value)
+            }
+            className="max-w-sm"
+        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -184,3 +186,4 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
+
