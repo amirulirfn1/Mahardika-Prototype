@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Report } from "@/lib/types";
@@ -104,9 +105,10 @@ export default function ReportsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-            <DataTable columns={reportColumns} data={sampleReports} filterPlaceholder="Filter by month (YYYY-MM)..." filterColumn="month" />
+            <DataTable columns={reportColumns} data={sampleReports} filterPlaceholder="Filter by month, date or sales..." />
         </CardContent>
       </Card>
     </div>
   );
 }
+

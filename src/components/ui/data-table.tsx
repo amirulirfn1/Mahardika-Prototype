@@ -13,6 +13,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  // getGlobalFilterFn, // Default global filter is used if not specified
 } from "@tanstack/react-table";
 
 import {
@@ -62,7 +63,7 @@ export function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
-    // Not specifying globalFilterFn uses the default global filter behavior
+    // globalFilterFn: getGlobalFilterFn(), // Uses default if not specified
     state: {
       sorting,
       columnFilters,
@@ -185,3 +186,4 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
+
